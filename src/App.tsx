@@ -1,3 +1,4 @@
+import '@/store-pack/fonts'
 import { StoreProvider, useStoreConfig, useCatalog } from '@/app/store'
 import { Toaster } from '@/components/ui/sonner'
 
