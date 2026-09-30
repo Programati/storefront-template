@@ -1,16 +1,30 @@
-// import { Toaster } from "sonner";
-import { Toaster } from "@/components/ui/sonner";
-import "./App.css";
-import { Button } from "./components/ui/button";
-import { toast } from "sonner";
+import { StoreProvider, useStoreConfig, useCatalog } from '@/app/store'
+import { Toaster } from '@/components/ui/sonner'
 
-function App() {
+function DebugHome() {
+  const config = useStoreConfig()
+  const catalog = useCatalog()
+
   return (
-    <>
-      <Toaster />
-      <Button onClick={() => toast("Hola")}>Click Me!</Button>
-    </>
-  );
+    <main className="mx-auto max-w-xl p-8">
+      <h1 className="text-2xl font-bold">{config.storeName}</h1>
+      <p className="text-muted-foreground">{config.tagline}</p>
+      <ul className="mt-6 space-y-2">
+        {catalog.products.map((p) => (
+          <li key={p.id}>
+            {p.name} {p.soldOut ? '(agotado)' : ''}
+          </li>
+        ))}
+      </ul>
+    </main>
+  )
 }
 
-export default App;
+export default function App() {
+  return (
+    <StoreProvider>
+      <DebugHome />
+      <Toaster />
+    </StoreProvider>
+  )
+}
