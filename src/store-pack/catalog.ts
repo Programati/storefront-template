@@ -43,6 +43,18 @@ export const catalog: Catalog = {
       optionGroups: [],
       soldOut: true,
     },
+    {
+      id: 'prod-3',
+      slug: 'producto-gamma',
+      name: 'Producto Gamma',
+      description:
+        'Producto simple, sin variantes ni opciones — se agrega directo.',
+      categoryId: 'cat-a',
+      image: { path: 'demo/gamma.jpg', alt: 'Producto Gamma' },
+      variants: [{ id: 'gamma-unico', label: 'Único', price: 3000 }],
+      optionGroups: [],
+      // soldOut: true,
+    },
   ],
   pricingRules: [
     {
