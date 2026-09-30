@@ -64,9 +64,6 @@ export function cartReducer(state: CartState, action: CartAction): CartState {
     case 'CLEAR':
       return { lines: [] }
 
-    case 'REPLACE':
-      return { lines: action.payload.lines }
-
     default:
       return state
   }

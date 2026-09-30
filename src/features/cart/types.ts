@@ -21,4 +21,3 @@ export type CartAction =
     }
   | { type: 'REMOVE_LINE'; payload: { lineId: string } }
   | { type: 'CLEAR' }
-  | { type: 'REPLACE'; payload: { lines: CartLine[] } }
