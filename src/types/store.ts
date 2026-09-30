@@ -83,3 +83,11 @@ export interface Catalog {
   products: Product[]
   pricingRules: PricingRule[]
 }
+
+export interface CartLine {
+  lineId: string
+  productId: string
+  variantId: string
+  selected: Record<string, string[]> // groupId → choiceIds seleccionados
+  qty: number // siempre entre 1 y config.maxQtyPerLine
+}
