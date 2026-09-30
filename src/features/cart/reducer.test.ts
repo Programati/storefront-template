@@ -145,4 +145,29 @@ describe('cartReducer', () => {
     state = cartReducer(state, { type: 'CLEAR' })
     expect(state.lines).toEqual([])
   })
+
+  it('trata un grupo vacío igual que un grupo ausente al fusionar líneas', () => {
+    let state = cartReducer(initialCartState, {
+      type: 'ADD_LINE',
+      payload: {
+        productId: 'p1',
+        variantId: 'v1',
+        selected: {},
+        qty: 1,
+        maxQty: 100,
+      },
+    })
+    state = cartReducer(state, {
+      type: 'ADD_LINE',
+      payload: {
+        productId: 'p1',
+        variantId: 'v1',
+        selected: { extras: [] },
+        qty: 1,
+        maxQty: 100,
+      },
+    })
+    expect(state.lines).toHaveLength(1)
+    expect(state.lines[0].qty).toBe(2)
+  })
 })

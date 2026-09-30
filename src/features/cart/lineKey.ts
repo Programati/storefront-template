@@ -8,6 +8,7 @@ export function lineKey(
   selected: Record<string, string[]>,
 ): string {
   const normalized = Object.keys(selected)
+    .filter((groupId) => selected[groupId].length > 0)
     .sort()
     .map((groupId) => `${groupId}:${[...selected[groupId]].sort().join(',')}`)
     .join('|')

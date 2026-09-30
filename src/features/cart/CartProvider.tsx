@@ -37,6 +37,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       pricedLines,
       totals,
       isEmpty: state.lines.length === 0,
+      unitCount: state.lines.reduce((n, l) => n + l.qty, 0),
       addLine: ({ productId, variantId, selected = {}, qty = 1 }) =>
         dispatch({
           type: 'ADD_LINE',

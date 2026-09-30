@@ -1,3 +1,12 @@
+// src/features/cart/index.ts
 export { CartProvider } from './CartProvider'
 export { useCart } from './CartContext'
+export { useCartPanel } from './useCartPanel'
+export { useAddToCart } from './useAddToCart'
+export { useCartLineViews } from './useCartLineViews'
+export { CartSheet } from './components/CartSheet'
+export { CartButton } from './components/CartButton'
+export { CartFloatingBar } from './components/CartFloatingBar'
+export { ProductOptionsSheet } from './components/ProductOptionsSheet'
 export type { CartContextValue, AddLineInput } from './CartContext'
+export type { CartLineView } from './cartView'

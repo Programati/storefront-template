@@ -14,6 +14,7 @@ export interface CartContextValue {
   pricedLines: PricedLine[]
   totals: CartTotals
   isEmpty: boolean
+  unitCount: number
   addLine: (input: AddLineInput) => void
   setQty: (lineId: string, qty: number) => void
   removeLine: (lineId: string) => void

@@ -14,11 +14,22 @@ export const catalog: Catalog = {
         'Producto de ejemplo con variantes y una opción con costo extra.',
       categoryId: 'cat-a',
       image: { path: 'demo/alfa.jpg', alt: 'Producto Alfa' },
+      variantLabel: 'Tamaño',
       variants: [
         { id: 'alfa-chico', label: 'Chico', price: 4500 },
         { id: 'alfa-grande', label: 'Grande', price: 8000 },
       ],
       optionGroups: [
+        {
+          id: 'opcion',
+          label: 'Opción obligatoria',
+          type: 'single',
+          required: true,
+          choices: [
+            { id: 'op-a', label: 'Opción A' },
+            { id: 'op-b', label: 'Opción B' },
+          ],
+        },
         {
           id: 'extra',
           label: 'Extra',

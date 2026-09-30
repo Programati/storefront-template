@@ -32,6 +32,7 @@ export interface Product {
   brandId?: string
   image: ProductImage
   gallery?: ProductImage[]
+  variantLabel?: string // nombre del grupo de variantes: 'Tamaño', 'Formato', 'Talle'
   variants: Variant[] // define el precio (ej: tamaño, formato)
   optionGroups: OptionGroup[] // no define precio por sí solo (ej: sabor, extras)
   details?: Record<string, string> // atributos libres, distintos por rubro
