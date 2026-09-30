@@ -1,23 +1,35 @@
+// src/App.tsx
 import '@/store-pack/fonts'
+import { toast } from 'sonner'
 import { StoreProvider, useStoreConfig, useCatalog } from '@/app/store'
 import { Toaster } from '@/components/ui/sonner'
+import { Section } from '@/components/shared/Section/Section'
+import { ProductCard } from '@/components/shared/ProductCard/ProductCard'
 
 function DebugHome() {
   const config = useStoreConfig()
   const catalog = useCatalog()
 
   return (
-    <main className="mx-auto max-w-xl p-8">
-      <h1 className="text-2xl font-bold">{config.storeName}</h1>
-      <p className="text-muted-foreground">{config.tagline}</p>
-      <ul className="mt-6 space-y-2">
-        {catalog.products.map((p) => (
-          <li key={p.id}>
-            {p.name} {p.soldOut ? '(agotado)' : ''}
-          </li>
+    <Section title={config.storeName} description={config.tagline}>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {catalog.products.map((product) => (
+          <ProductCard
+            key={product.id}
+            product={product}
+            currency={config.currency}
+            maxQty={config.maxQtyPerLine}
+            look="catalog"
+            onAdd={(p, _variantId, qty) =>
+              toast.success(`Agregado: ${qty} × ${p.name}`)
+            }
+            onOpenOptions={(p) =>
+              toast(`Abrir opciones de "${p.name}" (llega en la Fase 7)`)
+            }
+          />
         ))}
-      </ul>
-    </main>
+      </div>
+    </Section>
   )
 }
 
