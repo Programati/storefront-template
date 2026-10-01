@@ -69,6 +69,8 @@ export interface MessageStyle {
   footerNote?: string
 }
 
+export type CardLook = 'cozy' | 'catalog' | 'spec'
+
 export interface StoreConfig {
   storeName: string
   tagline?: string
@@ -77,6 +79,7 @@ export interface StoreConfig {
   maxQtyPerLine: number // tu límite de 1..100
   deliveryMethods: DeliveryMethod[]
   messageStyle?: MessageStyle
+  cardLook?: CardLook
 }
 
 export interface Catalog {

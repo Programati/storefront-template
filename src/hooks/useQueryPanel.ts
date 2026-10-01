@@ -1,3 +1,4 @@
+// src/hooks/useQueryPanel.ts
 import { useCallback } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router'
 
@@ -7,25 +8,27 @@ interface PanelNavState {
 
 // Un "panel" (sheet, modal) cuyo estado abierto/cerrado vive en la URL (?key=valor).
 export function useQueryPanel(key: string) {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
   const location = useLocation()
   const navigate = useNavigate()
   const value = searchParams.get(key)
 
   const open = useCallback(
     (nextValue: string) => {
-      setSearchParams(
-        (prev) => {
-          const next = new URLSearchParams(prev)
-          next.set(key, nextValue)
-          return next
+      // La URL se lee AL LLAMAR, no al renderizar: este callback puede quedar
+      // guardado en un toast que sobrevive al componente que lo creó.
+      const next = new URLSearchParams(window.location.search)
+      next.set(key, nextValue)
+      navigate(
+        { search: next.toString() },
+        // preventScrollReset: abrir un panel no debe llevar la página al tope.
+        {
+          state: { panelOpenedInApp: true } satisfies PanelNavState,
+          preventScrollReset: true,
         },
-        // Marca en el historial: "este panel lo abrió la app", así sabemos que
-        // volver atrás es una forma segura de cerrarlo.
-        { state: { panelOpenedInApp: true } satisfies PanelNavState },
       )
     },
-    [key, setSearchParams],
+    [key, navigate],
   )
 
   const close = useCallback(() => {
@@ -36,15 +39,13 @@ export function useQueryPanel(key: string) {
     }
     // Entraron por un link directo: atrás los sacaría del sitio, así que
     // solo quitamos el parámetro.
-    setSearchParams(
-      (prev) => {
-        const next = new URLSearchParams(prev)
-        next.delete(key)
-        return next
-      },
-      { replace: true },
+    const next = new URLSearchParams(window.location.search)
+    next.delete(key)
+    navigate(
+      { search: next.toString() },
+      { replace: true, preventScrollReset: true },
     )
-  }, [key, location.state, navigate, setSearchParams])
+  }, [key, location.state, navigate])
 
   return { value, isOpen: value !== null, open, close }
 }

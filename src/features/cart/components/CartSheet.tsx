@@ -1,9 +1,10 @@
 import { ShoppingBag } from 'lucide-react'
-import { toast } from 'sonner'
+import { Link } from 'react-router'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { useStoreConfig } from '@/app/store'
 import { EmptyState } from '@/components/shared/EmptyState/EmptyState'
 import { ResponsiveSheet } from '@/components/shared/ResponsiveSheet/ResponsiveSheet'
-import { Button } from '@/components/ui/button'
 import { formatCurrency } from '@/lib/format-currency'
 import { useCart } from '../CartContext'
 import { useCartLineViews } from '../useCartLineViews'
@@ -70,14 +71,12 @@ export function CartSheet() {
               <span>{formatCurrency(cart.totals.total, config.currency)}</span>
             </div>
 
-            {/* TEMPORAL: en las Fases 8-9 esto pasa a ser un enlace a /pedido */}
-            <Button
-              className="w-full"
-              size="lg"
-              onClick={() => toast('El checkout llega en la Fase 9')}
+            <Link
+              to="/pedido"
+              className={cn(buttonVariants({ size: 'lg' }), 'w-full')}
             >
               Continuar con el pedido
-            </Button>
+            </Link>
             <Button variant="ghost" className="w-full" onClick={cart.clear}>
               Vaciar pedido
             </Button>

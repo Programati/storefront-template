@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import type { Category, Product } from '@/types'
 import { useCatalogRepository } from './useCatalogRepository'
 import type { ProductFilter } from './types'
+import { pickFeatured } from './featured'
 
 export function useProducts(filter?: ProductFilter): Product[] {
   const repo = useCatalogRepository()
@@ -26,4 +27,9 @@ export function useCategories(): Category[] {
 export function useProductBySlug(slug: string): Product | undefined {
   const repo = useCatalogRepository()
   return useMemo(() => repo.getProductBySlug(slug), [repo, slug])
+}
+
+export function useFeaturedProducts(limit = 6): Product[] {
+  const products = useProducts()
+  return useMemo(() => pickFeatured(products, limit), [products, limit])
 }

@@ -14,4 +14,5 @@ export const storeConfig: StoreConfig = {
     headerEmoji: '🧾',
     footerNote: 'Pago y horario a coordinar',
   },
+  cardLook: 'catalog',
 }
