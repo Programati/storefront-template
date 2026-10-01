@@ -1,5 +1,4 @@
 import { MessageCircle } from 'lucide-react'
-import type { FormEvent } from 'react'
 import { FormField } from '@/components/shared/FormField/FormField'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -37,7 +36,7 @@ export function CheckoutForm({
     (m) => m.id === values.deliveryMethodId,
   )?.requiresAddress
 
-  function handleSubmit(event: FormEvent) {
+  function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
     const firstInvalid = onSubmit()
     if (firstInvalid)
