@@ -9,6 +9,7 @@ import { QuantityStepper } from '@/components/shared/QuantityStepper/QuantitySte
 import { PriceTag } from '@/components/shared/PriceTag/PriceTag'
 import { cn } from '@/lib/utils'
 import type { Product } from '@/types'
+import type { ImageResolver } from '@/lib/images'
 
 const cardVariants = cva('overflow-hidden transition-shadow', {
   variants: {
@@ -25,6 +26,8 @@ interface ProductCardProps extends VariantProps<typeof cardVariants> {
   product: Product
   currency: string
   maxQty: number
+  resolveImage: ImageResolver
+  imageSizes: string
   onOpenOptions?: (product: Product) => void
   onAdd?: (product: Product, variantId: string, qty: number) => void
 }
@@ -34,6 +37,8 @@ export function ProductCard({
   currency,
   maxQty,
   look,
+  resolveImage,
+  imageSizes,
   onOpenOptions,
   onAdd,
 }: ProductCardProps) {
@@ -53,6 +58,8 @@ export function ProductCard({
         <SmartImage
           path={product.image.path}
           alt={product.image.alt}
+          resolver={resolveImage}
+          sizes={imageSizes}
           className="h-full w-full object-cover"
         />
         {product.soldOut && <SoldOutOverlay />}

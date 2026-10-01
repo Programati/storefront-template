@@ -4,6 +4,9 @@ import { SmartImage } from '@/components/shared/SmartImage/SmartImage'
 import { Button } from '@/components/ui/button'
 import { formatCurrency } from '@/lib/format-currency'
 import type { CartLineView } from '../cartView'
+import { useImageResolver } from '@/app/useImageResolver'
+
+const THUMB_WIDTHS = [64, 128, 192] as const
 
 interface CartLineItemProps {
   view: CartLineView
@@ -24,11 +27,16 @@ export function CartLineItem({
     .filter(Boolean)
     .join(' · ')
 
+  const resolveImage = useImageResolver()
+
   return (
     <li className="flex gap-3 py-4">
       <SmartImage
         path={view.image.path}
         alt={view.image.alt}
+        resolver={resolveImage}
+        sizes="64px"
+        widths={THUMB_WIDTHS}
         width={128}
         height={128}
         className="size-16 shrink-0 rounded-md object-cover"

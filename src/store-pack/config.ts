@@ -16,4 +16,8 @@ export const storeConfig: StoreConfig = {
   },
   cardLook: 'catalog',
   scheduling: 'datetime',
+  images: {
+    provider: 'imagekit',
+    baseUrl: 'https://ik.imagekit.io/f9mtj7lc7',
+  },
 }

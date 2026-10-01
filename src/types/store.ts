@@ -69,6 +69,14 @@ export interface MessageStyle {
   footerNote?: string
 }
 
+export type ImageProvider = 'imagekit' | 'placeholder'
+
+export interface ImageConfig {
+  provider: ImageProvider
+  /** URL base del endpoint, sin barra final. Ej: https://ik.imagekit.io/tu_id */
+  baseUrl: string
+}
+
 export type CardLook = 'cozy' | 'catalog' | 'spec'
 export type SchedulingMode = 'none' | 'date' | 'datetime'
 
@@ -82,6 +90,7 @@ export interface StoreConfig {
   messageStyle?: MessageStyle
   cardLook?: CardLook
   scheduling?: SchedulingMode // qué pide el checkout: nada, fecha, o fecha + horario (por defecto 'date')
+  images?: ImageConfig
 }
 
 export interface Catalog {

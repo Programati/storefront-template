@@ -9,6 +9,10 @@ import { useAddToCart } from '../useAddToCart'
 import { useProductSelection } from '../useProductSelection'
 import { OptionGroupField } from './OptionGroupField'
 import { VariantField } from './VariantField'
+import { useImageResolver } from '@/app/useImageResolver'
+
+const HERO_SIZES = '(min-width: 768px) 28rem, 100vw'
+const HERO_WIDTHS = [480, 640, 960] as const
 
 interface ProductOptionsFormProps {
   product: Product
@@ -22,6 +26,7 @@ export function ProductOptionsForm({
   const config = useStoreConfig()
   const sel = useProductSelection(product)
   const addToCart = useAddToCart()
+  const resolveImage = useImageResolver()
 
   if (product.soldOut) {
     return (
@@ -50,6 +55,9 @@ export function ProductOptionsForm({
         <SmartImage
           path={product.image.path}
           alt={product.image.alt}
+          resolver={resolveImage}
+          sizes={HERO_SIZES}
+          widths={HERO_WIDTHS}
           width={640}
           height={360}
           className="aspect-video w-full rounded-lg object-cover"
@@ -123,3 +131,5 @@ export function ProductOptionsForm({
     </>
   )
 }
+
+// Ojo con el recorte: acá la imagen se muestra en 16:9 con object-cover, pero tu foto original es cuadrada, así que se pierden las franjas de arriba y abajo. Si te parece que corta demasiado el producto, cambiá aspect-video por aspect-square y height={360} por 640. Decidilo mirando cómo queda con la foto real.
