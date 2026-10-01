@@ -3,7 +3,7 @@ import type { StoreConfig } from '@/types'
 export const storeConfig: StoreConfig = {
   storeName: 'Tienda Demo',
   tagline: 'Catálogo de ejemplo para probar el core',
-  whatsappNumber: '5493794646563',
+  whatsappNumber: '5493704646563',
   currency: 'ARS',
   maxQtyPerLine: 10,
   deliveryMethods: [
@@ -15,4 +15,5 @@ export const storeConfig: StoreConfig = {
     footerNote: 'Pago y horario a coordinar',
   },
   cardLook: 'catalog',
+  scheduling: 'datetime',
 }

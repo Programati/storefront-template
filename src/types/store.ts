@@ -70,6 +70,7 @@ export interface MessageStyle {
 }
 
 export type CardLook = 'cozy' | 'catalog' | 'spec'
+export type SchedulingMode = 'none' | 'date' | 'datetime'
 
 export interface StoreConfig {
   storeName: string
@@ -80,6 +81,7 @@ export interface StoreConfig {
   deliveryMethods: DeliveryMethod[]
   messageStyle?: MessageStyle
   cardLook?: CardLook
+  scheduling?: SchedulingMode // qué pide el checkout: nada, fecha, o fecha + horario (por defecto 'date')
 }
 
 export interface Catalog {

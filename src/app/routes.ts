@@ -5,6 +5,7 @@ import { lazyPage } from './lazyPage'
 import { PageSpinner } from './PageSpinner'
 import { RootLayout } from './RootLayout'
 import { RouteError } from './RouteError'
+import { ThanksPage } from '@/pages/ThanksPage'
 
 export const routes: RouteObject[] = [
   {
@@ -29,10 +30,7 @@ export const routes: RouteObject[] = [
             path: 'pedido',
             ...lazyPage(() => import('@/pages/CheckoutPage'), 'CheckoutPage'),
           },
-          {
-            path: 'gracias',
-            ...lazyPage(() => import('@/pages/ThanksPage'), 'ThanksPage'),
-          },
+          { path: 'gracias', Component: ThanksPage },
           { path: '*', Component: NotFoundPage },
         ],
       },
