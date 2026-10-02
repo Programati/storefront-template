@@ -28,6 +28,7 @@ interface ProductCardProps extends VariantProps<typeof cardVariants> {
   maxQty: number
   resolveImage: ImageResolver
   imageSizes: string
+  priority?: boolean
   onOpenOptions?: (product: Product) => void
   onAdd?: (product: Product, variantId: string, qty: number) => void
 }
@@ -39,6 +40,7 @@ export function ProductCard({
   look,
   resolveImage,
   imageSizes,
+  priority,
   onOpenOptions,
   onAdd,
 }: ProductCardProps) {
@@ -58,6 +60,7 @@ export function ProductCard({
           alt={product.image.alt}
           resolver={resolveImage}
           sizes={imageSizes}
+          priority={priority}
           className="h-full w-full object-cover"
         />
         {product.soldOut && <SoldOutOverlay />}
