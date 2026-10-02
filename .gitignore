@@ -2,3 +2,12 @@ node_modules
 dist
 images-raw/
 images-ready/
+
+# Entorno y secretos
+.env
+.env.*
+!.env.example
+*.local
+
+# Netlify CLI
+.netlify
