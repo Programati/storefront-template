@@ -13,7 +13,7 @@ export const catalog: Catalog = {
       description:
         'Producto de ejemplo con variantes y una opción con costo extra.',
       categoryId: 'cat-a',
-      image: { path: 'products/producto-alfa.webp', alt: 'Producto Alfa' },
+      image: { path: 'products/producto-alfa-2.webp', alt: 'Producto Alfa' },
       variantLabel: 'Tamaño',
       variants: [
         { id: 'alfa-chico', label: 'Chico', price: 4500 },
