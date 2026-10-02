@@ -15,7 +15,7 @@ describe('calidad del catálogo de store-pack', () => {
     if (warnings.length > 0) {
       console.warn(
         `Advertencias del catálogo:\n${warnings
-          .map((w) => `- ${w.productId}: ${w.message}`)
+          .map((w) => `- ${w.subject}: ${w.message}`)
           .join('\n')}`,
       )
     }
