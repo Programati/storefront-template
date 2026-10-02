@@ -91,10 +91,7 @@ async function main() {
   }
 
   const verb = checkOnly ? 'por procesar' : 'procesadas'
-  console.log(
-    `\n${plan.matched.length} ${verb} · ${plan.unmatched.length} sin producto · ` +
-      `${plan.missing.length} faltantes · ${plan.conflicts.length} conflictos`,
-  )
+
   if (!checkOnly && plan.matched.length > 0) {
     console.log(
       `Subí el contenido de "${outputDir}/products" a la carpeta products de ImageKit.`,
