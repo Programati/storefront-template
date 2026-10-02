@@ -1,4 +1,5 @@
 export const MIN_TEXT_CONTRAST = 4.5
+export const MIN_GRAPHIC_CONTRAST = 3
 
 export interface ContrastPair {
   fg: string
@@ -6,20 +7,34 @@ export interface ContrastPair {
   min: number
 }
 
-const pair = (fg: string, bg: string): ContrastPair => ({
+const text = (fg: string, bg: string): ContrastPair => ({
   fg,
   bg,
   min: MIN_TEXT_CONTRAST,
 })
+const graphic = (fg: string, bg: string): ContrastPair => ({
+  fg,
+  bg,
+  min: MIN_GRAPHIC_CONTRAST,
+})
 
 export const TEXT_PAIRS: ContrastPair[] = [
-  pair('foreground', 'background'),
-  pair('card-foreground', 'card'),
-  pair('popover-foreground', 'popover'),
-  pair('primary-foreground', 'primary'),
-  pair('secondary-foreground', 'secondary'),
-  pair('muted-foreground', 'background'),
-  pair('muted-foreground', 'muted'),
-  pair('accent-foreground', 'accent'),
-  pair('destructive-foreground', 'destructive'),
+  text('foreground', 'background'),
+  text('card-foreground', 'card'),
+  text('popover-foreground', 'popover'),
+  text('primary-foreground', 'primary'),
+  text('secondary-foreground', 'secondary'),
+  text('accent-foreground', 'accent'),
+  text('destructive-foreground', 'destructive'),
+  // Texto secundario sobre cada superficie donde se usa
+  text('muted-foreground', 'background'),
+  text('muted-foreground', 'muted'),
+  text('muted-foreground', 'card'),
+  text('muted-foreground', 'popover'),
+  // Errores y asteriscos en rojo sobre superficies
+  text('destructive', 'background'),
+  text('destructive', 'card'),
+  text('destructive', 'popover'),
+  // Iconos de color (no texto): 3:1
+  graphic('primary', 'background'),
 ]
