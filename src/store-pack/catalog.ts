@@ -49,7 +49,7 @@ export const catalog: Catalog = {
       name: 'Producto Beta',
       description: 'Producto de ejemplo sin opciones, marcado como agotado.',
       categoryId: 'cat-b',
-      image: { path: 'demo/beta.jpg', alt: 'Producto Beta' },
+      image: { path: 'products/producto-beta.webp', alt: 'Producto Beta' },
       variants: [{ id: 'beta-unico', label: 'Único', price: 6000 }],
       optionGroups: [],
       soldOut: true,
@@ -61,7 +61,7 @@ export const catalog: Catalog = {
       description:
         'Producto simple, sin variantes ni opciones — se agrega directo.',
       categoryId: 'cat-a',
-      image: { path: 'demo/gamma.jpg', alt: 'Producto Gamma' },
+      image: { path: 'products/producto-gamma.webp', alt: 'Producto Gamma' },
       variants: [{ id: 'gamma-unico', label: 'Único', price: 3000 }],
       optionGroups: [],
       // soldOut: true,
