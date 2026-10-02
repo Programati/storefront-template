@@ -10,6 +10,7 @@ import {
 } from '@/features/catalog'
 import { cn } from '@/lib/utils'
 import { useProductGridProps } from './hooks/useProductGridProps'
+import { StorePageMeta } from '@/app/StorePageMeta'
 
 export function HomePage() {
   const config = useStoreConfig()
@@ -19,6 +20,7 @@ export function HomePage() {
 
   return (
     <>
+      <StorePageMeta />
       <section className="border-b bg-muted/40">
         <div className="mx-auto max-w-6xl px-4 py-16 text-center sm:py-24">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">

@@ -10,8 +10,9 @@ import {
   OrderSummary,
   useCheckoutForm,
 } from '@/features/checkout'
+import { StorePageMeta } from '@/app/StorePageMeta'
 
-export function CheckoutPage() {
+function CheckoutContent() {
   const config = useStoreConfig()
   const cart = useCart()
   const checkout = useCheckoutForm()
@@ -71,5 +72,14 @@ export function CheckoutPage() {
         />
       </div>
     </Section>
+  )
+}
+
+export function CheckoutPage() {
+  return (
+    <>
+      <StorePageMeta pageTitle="Tu pedido" noindex />
+      <CheckoutContent />
+    </>
   )
 }

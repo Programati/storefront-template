@@ -13,8 +13,9 @@ import {
 } from '@/features/checkout'
 import { copyToClipboard } from '@/lib/clipboard'
 import { cn } from '@/lib/utils'
+import { StorePageMeta } from '@/app/StorePageMeta'
 
-export function ThanksPage() {
+function ThanksContent() {
   const config = useStoreConfig()
   const order = useLastOrder()
   const prepared = useMemo(
@@ -119,5 +120,14 @@ export function ThanksPage() {
         </Link>
       </div>
     </Section>
+  )
+}
+
+export function ThanksPage() {
+  return (
+    <>
+      <StorePageMeta pageTitle="Pedido enviado" noindex />
+      <ThanksContent />
+    </>
   )
 }
