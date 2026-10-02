@@ -49,9 +49,7 @@ export function ProductCard({
   const lowestPrice = Math.min(...product.variants.map((v) => v.price))
 
   return (
-    <Card
-      className={cn(cardVariants({ look }), product.soldOut && 'opacity-90')}
-    >
+    <Card className={cardVariants({ look })}>
       <div
         className={cn('relative aspect-square', product.soldOut && 'grayscale')}
       >
