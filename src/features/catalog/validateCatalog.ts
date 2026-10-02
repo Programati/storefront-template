@@ -106,6 +106,15 @@ function checkPricingRules(catalog: Catalog): CatalogIssue[] {
 
   return catalog.pricingRules.flatMap((rule) => {
     const subject = `regla:${rule.id}`
+    const problems: CatalogIssue[] = []
+    if (rule.tiers.length === 0) {
+      problems.push(error(subject, 'sin tiers: la promo nunca se aplicaría'))
+    }
+    if (!rule.match.productIds?.length && !rule.match.variantIds?.length) {
+      problems.push(
+        error(subject, 'match vacío: no apunta a ningún producto ni variante'),
+      )
+    }
     return [
       ...(rule.match.productIds ?? [])
         .filter((id) => !productIds.has(id))
@@ -123,6 +132,7 @@ function checkPricingRules(catalog: Catalog): CatalogIssue[] {
             `variantId "${id}" no existe: la promo nunca se aplicaría`,
           ),
         ),
+      ...problems,
     ]
   })
 }
@@ -133,5 +143,25 @@ export function validateCatalog(catalog: Catalog): CatalogIssue[] {
     ...catalog.products.flatMap((p) => checkProduct(p, categoryIds)),
     ...checkUniqueness(catalog.products),
     ...checkPricingRules(catalog),
+    ...checkOverlappingRules(catalog),
   ]
+}
+function checkOverlappingRules(catalog: Catalog): CatalogIssue[] {
+  return catalog.products.flatMap((product) =>
+    product.variants.flatMap((variant) => {
+      const matching = catalog.pricingRules.filter(
+        (rule) =>
+          rule.match.variantIds?.includes(variant.id) ||
+          rule.match.productIds?.includes(product.id),
+      )
+      return matching.length > 1
+        ? [
+            error(
+              variant.id,
+              `la variante la matchean varias reglas (${matching.map((r) => r.id).join(', ')}): solo se aplica la primera`,
+            ),
+          ]
+        : []
+    }),
+  )
 }
