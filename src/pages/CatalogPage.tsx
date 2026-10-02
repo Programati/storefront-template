@@ -42,7 +42,7 @@ export function CatalogPage() {
             className="max-w-xs"
           />
         </div>
-        <ProductGrid products={products} {...gridProps} />
+        <ProductGrid products={products} priorityCount={1} {...gridProps} />
       </Section>
     </>
   )

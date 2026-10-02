@@ -16,12 +16,15 @@ interface ProductGridProps extends Pick<
   'currency' | 'maxQty' | 'look' | 'resolveImage' | 'onAdd' | 'onOpenOptions'
 > {
   products: Product[]
+  /** Cuántas imágenes iniciales cargar con prioridad (las visibles sin scroll). */
+  priorityCount?: number
   emptyTitle?: string
   emptyDescription?: string
 }
 
 export function ProductGrid({
   products,
+  priorityCount = 0,
   emptyTitle = 'Sin resultados',
   emptyDescription = 'Probá con otra búsqueda.',
   ...cardProps
@@ -32,11 +35,12 @@ export function ProductGrid({
 
   return (
     <div className={GRID_CLASSES}>
-      {products.map((product) => (
+      {products.map((product, index) => (
         <ProductCard
           key={product.id}
           product={product}
           imageSizes={GRID_IMAGE_SIZES}
+          priority={index < priorityCount}
           {...cardProps}
         />
       ))}

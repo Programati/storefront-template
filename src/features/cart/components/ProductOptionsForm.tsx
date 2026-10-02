@@ -59,8 +59,8 @@ export function ProductOptionsForm({
           sizes={HERO_SIZES}
           widths={HERO_WIDTHS}
           width={640}
-          height={360}
-          className="aspect-video w-full rounded-lg object-cover"
+          height={640}
+          className="aspect-square w-full rounded-lg object-cover"
         />
 
         {product.variants.length > 1 && (
@@ -131,5 +131,3 @@ export function ProductOptionsForm({
     </>
   )
 }
-
-// Ojo con el recorte: acá la imagen se muestra en 16:9 con object-cover, pero tu foto original es cuadrada, así que se pierden las franjas de arriba y abajo. Si te parece que corta demasiado el producto, cambiá aspect-video por aspect-square y height={360} por 640. Decidilo mirando cómo queda con la foto real.
