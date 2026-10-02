@@ -5,7 +5,7 @@ import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  resolve: { alias: { '@': path.resolve(__dirname, './src') } },
+  resolve: { alias: { '@': path.resolve(import.meta.dirname, './src') } },
   test: {
     environment: 'node', // son funciones puras, no tocan el DOM. Cuando testeemos componentes (Fase 13), ahí sí vamos a necesitar 'jsdom'.
   },
