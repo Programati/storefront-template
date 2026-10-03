@@ -20,6 +20,8 @@ export default defineConfig({
     rolldownOptions: { plugins: analyzerPlugins },
   },
   test: {
-    environment: 'node', // son funciones puras, no tocan el DOM. Cuando testeemos componentes (Fase 13), ahí sí vamos a necesitar 'jsdom'.
+    // node por defecto: la mayoría son funciones puras. Los tests de componentes
+    // piden el DOM por archivo con `// @vitest-environment jsdom`.
+    environment: 'node',
   },
 })
