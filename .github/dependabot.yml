@@ -9,6 +9,13 @@ updates:
       minor-and-patch:
         patterns: ['*']
         update-types: ['minor', 'patch']
+    ignore:
+      # Fijado a la versión que trae Vite (~1.2.x). Los patch encajan en su rango;
+      # un minor/major se sube a mano, junto con Vite.
+      - dependency-name: 'rolldown'
+        update-types:
+          - 'version-update:semver-minor'
+          - 'version-update:semver-major'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
