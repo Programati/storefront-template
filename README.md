@@ -2,12 +2,13 @@
 
 Plantilla de tienda **100 % front-end**: catálogo, carrito y pedido por WhatsApp. No tiene backend ni base de datos, a propósito. Se adapta a cada rubro cambiando solo la carpeta `src/store-pack/`.
 
-- Demo (campo de pruebas): https://tienda-core.netlify.app
+- Demo (campo de pruebas, muestra el preset `pasteleria`): https://tienda-core.netlify.app
 - Referencia de UX: https://dulceolivia.netlify.app
 
 Para clientes que necesitan dominio propio, backend y base de datos, eso se arma aparte.
 
 > **Número de WhatsApp de ejemplo:** el core trae `5491100000000` en `config.ts`, un número ficticio. Los pedidos de la demo no llegan a nadie. En cada tienda real, reemplazalo por el del cliente antes de publicar.
+> **El core viene con una pastelería de ejemplo en `src/store-pack/`** (preset `pasteleria`). Es solo la demo: un repo de otro rubro tiene que reemplazarla antes de tocar nada (ver el checklist y la sección Presets). La tienda neutra anterior (Producto Alfa, Beta y Gamma) quedó guardada como preset `demo`.
 
 ## Qué hace
 
@@ -99,6 +100,15 @@ pnpm preset:use <id>
 - Se niega a correr si `src/store-pack` tiene cambios sin commitear. `--force` los pisa.
 - Si el preset usa fuentes que no están instaladas, avisa qué `pnpm add` falta.
 
+Presets incluidos:
+
+| Preset       | Qué es                                                                             |
+| ------------ | ---------------------------------------------------------------------------------- |
+| `pasteleria` | Pastelería de ejemplo (budines, tartas, dulces). Es la que trae `store-pack/` hoy. |
+| `demo`       | Tienda neutra de pruebas (Producto Alfa, Beta y Gamma). Usa la fuente Poppins.     |
+
+Los `config.ts` de los presets apuntan al ImageKit del core (`images.baseUrl`). En un repo de cliente hay que cambiarlo por la cuenta propia.
+
 ## Tema y fuentes
 
 - `theme.css` define **valores** (`:root` y `.dark`). `src/index.css` hace el mapeo en `@theme inline`. Un token de color nuevo necesita las dos cosas.
@@ -143,6 +153,7 @@ Rama `tipo/descripcion` → push → PR → CI verde → merge en GitHub con **M
 **Antes de empezar**
 
 - [ ] Crear el repo desde este template y un sitio de Netlify propio.
+- [ ] El repo nace con la pastelería en `src/store-pack/`. Si el rubro es otro, reemplazala antes de editar nada: `pnpm preset:use demo` (neutro) u otro preset, o a mano. Si el preset usa una fuente que falta, `preset:use` avisa qué instalar.
 - [ ] Reemplazar el `whatsappNumber` ficticio de `config.ts` (`5491100000000`) por el número real del cliente, formato E.164 sin `+`. Probar un pedido de punta a punta para confirmar que llega al chat correcto.
 - [ ] Confirmar `.nvmrc` y `packageManager` en el repo nuevo.
 - [ ] Revisar los créditos de Netlify en el panel de uso.
@@ -159,7 +170,7 @@ Rama `tipo/descripcion` → push → PR → CI verde → merge en GitHub con **M
 
 - [ ] `catalog.ts` con los precios del cliente.
 - [ ] `alt` de cada imagen: describe lo que se ve, sin repetir el nombre del producto ni empezar con "imagen de…". `alt=""` solo si es decorativa (verificar el fallback `role="img"` de `SmartImage`).
-- [ ] Cuenta de ImageKit propia y flujo de imágenes de la sección anterior.
+- [ ] Cuenta de ImageKit propia: cambiar `images.baseUrl` en `config.ts` (los presets apuntan a la cuenta del core) y seguir el flujo de imágenes de la sección anterior.
 - [ ] Si el cliente usa el provider `placeholder`, agregar `placehold.co` a `img-src` en la CSP.
 
 **Antes de publicar**
@@ -173,3 +184,4 @@ Rama `tipo/descripcion` → push → PR → CI verde → merge en GitHub con **M
 
 - Es una SPA pura: Lighthouse marca "LCP request discovery" en rojo.
 - Sin resolver todavía: `siteUrl`, canonical, `og:*`, sitemap y JSON-LD.
+- `gallery` existe en el modelo de producto y en el script de imágenes, pero la interfaz todavía no la muestra: solo se ve `image`.
