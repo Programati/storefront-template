@@ -3,7 +3,7 @@ import type { StoreConfig } from '@/types'
 export const storeConfig: StoreConfig = {
   storeName: 'Tienda Demo',
   tagline: 'Catálogo de ejemplo para probar el core',
-  whatsappNumber: '5493704646563',
+  whatsappNumber: '5491100000000',
   currency: 'ARS',
   maxQtyPerLine: 10,
   deliveryMethods: [
