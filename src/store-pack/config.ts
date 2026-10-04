@@ -1,9 +1,9 @@
 import type { StoreConfig } from '@/types'
 
 export const storeConfig: StoreConfig = {
-  storeName: 'Tienda Demo',
-  tagline: 'Catálogo de ejemplo para probar el core',
-  whatsappNumber: '5491100000000',
+  storeName: 'Pastelería Demo',
+  tagline: 'Budines, tartas y dulces caseros',
+  whatsappNumber: '5493704646563',
   currency: 'ARS',
   maxQtyPerLine: 10,
   deliveryMethods: [
@@ -11,10 +11,10 @@ export const storeConfig: StoreConfig = {
     { id: 'delivery', label: 'Envío a domicilio', requiresAddress: true },
   ],
   messageStyle: {
-    headerEmoji: '🧾',
+    headerEmoji: '🧁',
     footerNote: 'Pago y horario a coordinar',
   },
-  cardLook: 'catalog',
+  cardLook: 'cozy',
   scheduling: 'datetime',
   images: {
     provider: 'imagekit',

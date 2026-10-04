@@ -3,25 +3,26 @@ import type { StoreContent } from '@/types'
 export const storeContent: StoreContent = {
   home: {
     sections: [
-      { type: 'hero', ctaLabel: 'Ver catálogo' },
-      { type: 'categories', title: 'Explorá por categoría' },
-      { type: 'featured', title: 'Destacados' },
+      { type: 'hero', ctaLabel: 'Ver las delicias' },
+      { type: 'categories', title: 'Elegí tu antojo' },
+      { type: 'featured', title: 'Los favoritos de la casa' },
       {
         type: 'howToOrder',
         title: 'Cómo pedir',
         steps: [
           {
-            title: 'Elegí tus productos',
+            title: 'Elegí tus dulces',
+            description: 'Recorré el catálogo y sumá lo que quieras al pedido.',
+          },
+          {
+            title: 'Contanos cuándo lo necesitás',
             description:
-              'Explorá el catálogo y agregá lo que quieras al pedido.',
+              'Indicá si retirás o te lo llevamos, y la fecha y hora.',
           },
           {
-            title: 'Completá tus datos',
-            description: 'Indicá cómo querés recibirlo y cuándo.',
-          },
-          {
-            title: 'Enviá por WhatsApp',
-            description: 'Armamos el mensaje y lo mandás para confirmar.',
+            title: 'Confirmá por WhatsApp',
+            description:
+              'Armamos el mensaje con tu pedido y lo enviás para coordinar.',
           },
         ],
       },
@@ -29,6 +30,11 @@ export const storeContent: StoreContent = {
         type: 'faq',
         title: 'Preguntas frecuentes',
         items: [
+          {
+            question: '¿Con cuánta anticipación tengo que pedir una torta?',
+            answer:
+              'Con 48 hs de anticipación. La decoración se coordina por WhatsApp.',
+          },
           {
             question: '¿Cómo se paga?',
             answer: 'El pago se coordina por WhatsApp al confirmar el pedido.',
