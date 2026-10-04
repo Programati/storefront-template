@@ -7,6 +7,8 @@ Plantilla de tienda **100 % front-end**: catálogo, carrito y pedido por WhatsAp
 
 Para clientes que necesitan dominio propio, backend y base de datos, eso se arma aparte.
 
+> **Número de WhatsApp de ejemplo:** el core trae `5491100000000` en `config.ts`, un número ficticio. Los pedidos de la demo no llegan a nadie. En cada tienda real, reemplazalo por el del cliente antes de publicar.
+
 ## Qué hace
 
 - Catálogo con categorías, búsqueda local, variantes, grupos de opciones y productos agotados.
@@ -141,7 +143,7 @@ Rama `tipo/descripcion` → push → PR → CI verde → merge en GitHub con **M
 **Antes de empezar**
 
 - [ ] Crear el repo desde este template y un sitio de Netlify propio.
-- [ ] Reemplazar `whatsappNumber` en `config.ts` por un número ficticio hasta tener el real del cliente.
+- [ ] Reemplazar el `whatsappNumber` ficticio de `config.ts` (`5491100000000`) por el número real del cliente, formato E.164 sin `+`. Probar un pedido de punta a punta para confirmar que llega al chat correcto.
 - [ ] Confirmar `.nvmrc` y `packageManager` en el repo nuevo.
 - [ ] Revisar los créditos de Netlify en el panel de uso.
 
