@@ -41,7 +41,7 @@ export function buildWhatsAppMessage(
   out.push('', '*Detalle*')
   lines.forEach((line, index) => {
     const variant = line.variantLabel ? ` (${line.variantLabel})` : ''
-    out.push(`${index + 1}. ${line.qty} × ${line.productName}${variant}`)
+    out.push(`${index + 1}) *${line.qty} ×* ${line.productName}${variant}`)
     if (line.optionLabels.length > 0)
       out.push(`   ↳ ${line.optionLabels.join(' + ')}`)
     out.push(`   ${formatMoney(line.lineTotal)}`)

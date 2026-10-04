@@ -23,10 +23,10 @@ describe('buildWhatsAppMessage', () => {
         '> tocar timbre',
         '',
         '*Detalle*',
-        '1. 4 × Producto Alfa (Grande)',
+        '1) *4 ×* Producto Alfa (Grande)',
         '   ↳ Agregado 1',
         '   $32000',
-        '2. 1 × Producto Gamma',
+        '2) *1 ×* Producto Gamma',
         '   $3000',
         DIVIDER,
         'Subtotal: $37000',
@@ -61,5 +61,12 @@ describe('buildWhatsAppMessage', () => {
     expect(message).not.toContain('Para:')
     expect(message).not.toContain('Notas')
     expect(message).not.toContain('Dirección')
+  })
+
+  it('distingue el número de ítem de la cantidad', () => {
+    const lines = buildWhatsAppMessage(sampleOrder, options).split('\n')
+    const items = lines.filter((line) => /^\d+\) /.test(line))
+    expect(items.length).toBe(sampleOrder.lines.length)
+    for (const item of items) expect(item).toMatch(/^\d+\) \*\d+ ×\* /)
   })
 })
