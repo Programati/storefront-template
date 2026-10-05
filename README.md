@@ -85,6 +85,7 @@ Nadie importa `store-pack` directo salvo `StoreProvider` y `fonts`: el resto lee
 ### Contenido de la home
 
 `content.home.sections` es una lista: el orden de la lista es el orden en pantalla, y quitar un ítem oculta la sección. Tipos disponibles: `hero`, `categories`, `featured`, `howToOrder`, `faq`. Los textos de la interfaz del core ("Agregar", mensajes de validación) no se configuran acá.
+`content.demoNotice` (opcional) muestra una franja arriba de todo con ese texto. Es para vistas de demostración: sin el campo, no se muestra nada.
 
 ### Presets
 
@@ -165,6 +166,7 @@ Rama `tipo/descripcion` → push → PR → CI verde → merge en GitHub con **M
 - [ ] `theme.css`: paleta; correr `pnpm test` para ver el contraste.
 - [ ] Fuente: instalar, importar solo los pesos usados y actualizar `--font-sans`.
 - [ ] Favicon del cliente (`public/favicon.svg`).
+- [ ] `content.ts`: borrar `demoNotice` si el repo es de un cliente real (el preset `pasteleria` lo trae puesto).
 
 **Catálogo e imágenes**
 
