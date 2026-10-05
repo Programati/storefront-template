@@ -17,6 +17,8 @@ export type HomeSection =
   | { type: 'faq'; title: string; items: FaqItem[] }
 
 export interface StoreContent {
+  // Opcional: si existe, se muestra una franja arriba de todo. Sin el campo, no se muestra nada.
+  demoNotice?: string
   home: {
     // El orden de la lista es el orden en pantalla. Quitar un ítem oculta la sección.
     sections: HomeSection[]

@@ -10,14 +10,17 @@ import {
 } from '@/features/cart'
 import { cn } from '@/lib/utils'
 import { MainNav } from './MainNav'
-import { useStoreConfig } from './store'
+import { useStoreConfig, useStoreContent } from './store'
+import { DemoNotice } from '@/components/shared/DemoNotice/DemoNotice'
 
 export function RootLayout() {
   const config = useStoreConfig()
+  const content = useStoreContent()
   const cart = useCart()
 
   return (
     <div className="min-h-dvh">
+      {content.demoNotice && <DemoNotice message={content.demoNotice} />}
       <SiteHeader
         brand={<Link to="/">{config.storeName}</Link>}
         nav={<MainNav />}
