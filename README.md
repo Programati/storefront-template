@@ -153,6 +153,7 @@ Rama `tipo/descripcion` → push → PR → CI verde → merge en GitHub con **M
 
 **Antes de empezar**
 
+- [ ] Revisar el `LICENSE` heredado del template: el archivo viaja a cada repo nuevo. En un repo privado de cliente, decidir si se conserva, se reemplaza o se quita.
 - [ ] Crear el repo desde este template y un sitio de Netlify propio.
 - [ ] El repo nace con la pastelería en `src/store-pack/`. Si el rubro es otro, reemplazala antes de editar nada: `pnpm preset:use demo` (neutro) u otro preset, o a mano. Si el preset usa una fuente que falta, `preset:use` avisa qué instalar.
 - [ ] Reemplazar el `whatsappNumber` ficticio de `config.ts` (`5491100000000`) por el número real del cliente, formato E.164 sin `+`. Probar un pedido de punta a punta para confirmar que llega al chat correcto.
@@ -181,6 +182,10 @@ Rama `tipo/descripcion` → push → PR → CI verde → merge en GitHub con **M
 - [ ] `curl -sI` al dominio del cliente para comprobar que los headers se aplican.
 - [ ] Probar en móvil el flujo completo (agregar, pedido, WhatsApp, pantalla de gracias).
 - [ ] Si se actualizó `sonner`, repetir la prueba del foco cuando un toast abre un panel.
+
+## Licencia
+
+MIT. Ver [LICENSE](LICENSE).
 
 ## Limitaciones conocidas
 
