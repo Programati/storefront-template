@@ -1,6 +1,8 @@
 import type { StoreContent } from '@/types'
 
 export const storeContent: StoreContent = {
+  demoNotice:
+    'Vista de demostración: los pedidos de este sitio no llegan a ningún comercio.',
   home: {
     sections: [
       { type: 'hero', ctaLabel: 'Ver las delicias' },
