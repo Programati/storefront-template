@@ -2,6 +2,7 @@ import type { CartLineView } from '@/features/cart'
 import type { CartTotals } from '@/features/pricing'
 import type { DeliveryMethod } from '@/types'
 import { makeOrderCode } from './orderCode'
+import { parseMapsLink } from './mapsLink'
 import { sanitizeInline, sanitizeNotes } from './sanitize'
 import type {
   CheckoutFormValues,
@@ -54,6 +55,13 @@ export function buildOrder({
     ? sanitizeInline(values.address, LIMITS.address)
     : ''
 
+  // Mismo criterio que la dirección: solo viaja si la entrega la requiere,
+  // y se guarda la URL ya normalizada y validada.
+  const locationUrl =
+    method.requiresAddress && values.locationUrl
+      ? parseMapsLink(values.locationUrl)
+      : null
+
   const schedule: OrderSchedule = {}
   if (values.date) {
     schedule.date = values.date
@@ -67,6 +75,7 @@ export function buildOrder({
       name: sanitizeInline(values.name, LIMITS.name),
       deliveryLabel: method.label,
       ...(address ? { address } : {}),
+      ...(locationUrl ? { locationUrl } : {}),
       notes: sanitizeNotes(values.notes, LIMITS.notes),
     },
     schedule,
