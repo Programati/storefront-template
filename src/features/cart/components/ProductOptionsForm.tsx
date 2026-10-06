@@ -1,7 +1,7 @@
 import { useStoreConfig } from '@/app/store'
 import { EmptyState } from '@/components/shared/EmptyState/EmptyState'
 import { QuantityStepper } from '@/components/shared/QuantityStepper/QuantityStepper'
-import { SmartImage } from '@/components/shared/SmartImage/SmartImage'
+import { ProductGallery } from '@/components/shared/ProductGallery/ProductGallery'
 import { Button } from '@/components/ui/button'
 import { formatCurrency } from '@/lib/format-currency'
 import type { Product } from '@/types'
@@ -52,15 +52,11 @@ export function ProductOptionsForm({
   return (
     <>
       <div className="flex-1 space-y-6 overflow-y-auto p-4">
-        <SmartImage
-          path={product.image.path}
-          alt={product.image.alt}
+        <ProductGallery
+          images={[product.image, ...(product.gallery ?? [])]}
           resolver={resolveImage}
           sizes={HERO_SIZES}
           widths={HERO_WIDTHS}
-          width={640}
-          height={640}
-          className="aspect-square w-full rounded-lg object-cover"
         />
 
         {product.variants.length > 1 && (
