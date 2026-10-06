@@ -1,5 +1,6 @@
 import { MessageCircle } from 'lucide-react'
 import { FormField } from '@/components/shared/FormField/FormField'
+import { MapsLinkCard } from '@/components/shared/MapsLinkCard/MapsLinkCard'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -12,6 +13,7 @@ import type {
   CheckoutFormValues,
 } from '../types'
 import { LIMITS } from '../validation'
+import { parseMapsLink } from '../mapsLink'
 
 interface CheckoutFormProps {
   values: CheckoutFormValues
@@ -19,6 +21,8 @@ interface CheckoutFormProps {
   deliveryMethods: DeliveryMethod[]
   scheduling: SchedulingMode
   minDate: string
+  /** Muestra el campo para pegar un link de Google Maps (si la entrega pide dirección). */
+  locationLink?: boolean
   onChange: (field: CheckoutField, value: string) => void
   onSubmit: () => CheckoutField | null // devuelve el primer campo inválido, o null si salió bien
 }
@@ -29,12 +33,17 @@ export function CheckoutForm({
   deliveryMethods,
   scheduling,
   minDate,
+  locationLink = false,
   onChange,
   onSubmit,
 }: CheckoutFormProps) {
   const needsAddress = deliveryMethods.find(
     (m) => m.id === values.deliveryMethodId,
   )?.requiresAddress
+
+  // Solo se previsualiza un link válido; uno inválido muestra el error al enviar.
+  const showLocation = Boolean(locationLink && needsAddress)
+  const mapsUrl = showLocation ? parseMapsLink(values.locationUrl ?? '') : null
 
   function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
     event.preventDefault()
@@ -107,6 +116,31 @@ export function CheckoutForm({
             />
           )}
         </FormField>
+      )}
+
+      {showLocation && (
+        <div className="space-y-3">
+          <FormField
+            id="checkout-locationUrl"
+            label="Ubicación en Google Maps"
+            optional
+            error={errors.locationUrl}
+          >
+            {(control) => (
+              <Input
+                {...control}
+                type="url"
+                inputMode="url"
+                autoComplete="off"
+                maxLength={LIMITS.locationUrl}
+                placeholder="https://maps.app.goo.gl/…"
+                value={values.locationUrl ?? ''}
+                onChange={(e) => onChange('locationUrl', e.target.value)}
+              />
+            )}
+          </FormField>
+          {mapsUrl && <MapsLinkCard url={mapsUrl} />}
+        </div>
       )}
 
       {scheduling !== 'none' && (
