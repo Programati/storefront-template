@@ -14,7 +14,7 @@ Para clientes que necesitan dominio propio, backend y base de datos, eso se arma
 
 - Catálogo con categorías, búsqueda local, variantes, grupos de opciones y productos agotados.
 - Carrito persistido en `localStorage` (guarda solo ids y cantidades; los precios se recalculan desde el catálogo).
-- Precios por volumen (promos por cantidad).
+- Banner rotativo opcional en el hero, con flechas y puntos (ver sección Banners).
 - Pedido por WhatsApp como ticket con código (por ejemplo `DO-7K2F`).
 - Imágenes servidas desde ImageKit, con un provider `placeholder` para desarrollo.
 
@@ -36,19 +36,21 @@ pnpm dev
 
 ## Scripts
 
-| Script                 | Qué hace                                                             |
-| ---------------------- | -------------------------------------------------------------------- |
-| `pnpm dev`             | Servidor de desarrollo                                               |
-| `pnpm build`           | `tsc -b` (tipa `src/` y `scripts/`) y build de Vite                  |
-| `pnpm lint`            | ESLint                                                               |
-| `pnpm test`            | Vitest (una pasada)                                                  |
-| `pnpm test:watch`      | Vitest en modo watch                                                 |
-| `pnpm preview`         | Sirve el build local                                                 |
-| `pnpm images:check`    | Chequeo **local** de fotos faltantes, huérfanas o en conflicto       |
-| `pnpm images:prepare`  | Convierte las fotos de `images-raw/` a WebP en `images-ready/`       |
-| `pnpm build:analyze`   | Build con informe de bundle en `dist/analyze-data.md` (experimental) |
-| `pnpm bundle:check`    | Falla si el JS gzip supera el tope de `bundle-budget.json`           |
-| `pnpm preset:use <id>` | Aplica un preset sobre `src/store-pack/`                             |
+| Script                      | Qué hace                                                             |
+| --------------------------- | -------------------------------------------------------------------- |
+| `pnpm dev`                  | Servidor de desarrollo                                               |
+| `pnpm build`                | `tsc -b` (tipa `src/` y `scripts/`) y build de Vite                  |
+| `pnpm lint`                 | ESLint                                                               |
+| `pnpm test`                 | Vitest (una pasada)                                                  |
+| `pnpm test:watch`           | Vitest en modo watch                                                 |
+| `pnpm preview`              | Sirve el build local                                                 |
+| `pnpm images:check`         | Chequeo **local** de fotos faltantes, huérfanas o en conflicto       |
+| `pnpm images:prepare`       | Convierte las fotos de `images-raw/` a WebP en `images-ready/`       |
+| `pnpm images:banners:check` | Chequeo **local** de los banners del hero contra `banners-raw/`      |
+| `pnpm images:banners`       | Convierte las fotos de `banners-raw/` a WebP 16:9 en `images-ready/` |
+| `pnpm build:analyze`        | Build con informe de bundle en `dist/analyze-data.md` (experimental) |
+| `pnpm bundle:check`         | Falla si el JS gzip supera el tope de `bundle-budget.json`           |
+| `pnpm preset:use <id>`      | Aplica un preset sobre `src/store-pack/`                             |
 
 ## Arquitectura
 
@@ -78,7 +80,7 @@ Capas: `components/ui` ← `components/shared` ← `features/*` ← `pages`. `fe
 | `theme.css`  | Paleta y fuente (solo valores, claro y oscuro)                                 |
 | `fonts.ts`   | Imports de `@fontsource`                                                       |
 
-Nadie importa `store-pack` directo salvo `StoreProvider` y `fonts`: el resto lee todo con `useStoreConfig()`, `useCatalog()` y `useStoreContent()`.
+Nadie importa `store-pack` directo salvo `StoreProvider` y `fonts`: el resto lee todo con `useStoreConfig()`, `useCatalog()` y `useStoreContent()`. Excepciones deliberadas (validan o procesan los datos reales): `catalogQuality.test.ts`, `scripts/prepare-images.ts`, `scripts/images/catalogPaths.test.ts`, `scripts/prepare-banners.ts` y `scripts/images/bannerPaths.test.ts`.
 
 **Regla de oro:** si al trabajar para un cliente tocás algo que no sea `store-pack/` ni `presets/`, el cambio va **primero al core** y después se copia al repo del cliente (cherry-pick).
 
@@ -123,6 +125,24 @@ Una cuenta de ImageKit por cliente. **Las claves privadas nunca van en el repo.*
 - Rutas relativas con la convención `products/<slug>.webp`. Galería: `<slug>-2.webp`, `<slug>-3.webp`… Reemplazo de una foto: `<slug>-v2.webp`.
 - Flujo: cuenta de ImageKit → `images` en `config.ts` → `catalog.ts` → fotos en `images-raw/` → `pnpm images:check` → `pnpm images:prepare` → subir `images-ready/products/*` (sin sufijo aleatorio) → commit de `catalog.ts`. Las imágenes no se commitean.
 - `images:check` **no corre en CI** (necesita `images-raw/`). Lo que sí corre en CI es `scripts/images/catalogPaths.test.ts`, que valida las rutas del catálogo.
+
+## Banners del hero
+
+Campo **opcional** `banners` dentro del hero de `content.ts`. Sin banners, el hero queda como siempre. Con banners, las fotos rotan solas cada 5 s con fundido, con flechas a los costados y puntos; la rotación no se detiene al tocar los controles. Con "reducir movimiento" activado en el sistema no hay rotación automática y se navega a mano.
+
+```ts
+{
+  type: 'hero',
+  ctaLabel: 'Ver las delicias',
+  banners: [{ path: 'banners/banner-1.webp', alt: 'Describe lo que se ve' }],
+}
+```
+
+- `alt` es obligatorio y describe lo que se ve. Las rutas siguen la convención `banners/<nombre>.webp`.
+- Fotos **apaisadas**, de al menos 1600 px de ancho (el script avisa por debajo de 1280 px).
+- Flujo: declarar los banners en el hero del preset → fotos en `banners-raw/` con el mismo nombre que la ruta (`banner-1.jpg` → `banners/banner-1.webp`) → `pnpm images:banners:check` → `pnpm images:banners` → subir `images-ready/banners/*` a la carpeta `banners` de ImageKit (sin sufijo aleatorio). Las imágenes no se commitean.
+- **Recorte:** el script recorta al centro en 16:9. Una foto cuadrada pierde arriba y abajo, y en celular se ve la parte central: componé la foto con lo importante en el medio.
+- `images:banners:check` no corre en CI. En CI corre `scripts/images/bannerPaths.test.ts`, que valida rutas, `alt` y nombres repetidos.
 
 ## Calidad
 
@@ -190,4 +210,5 @@ MIT. Ver [LICENSE](LICENSE).
 ## Limitaciones conocidas
 
 - Es una SPA pura: Lighthouse marca "LCP request discovery" en rojo.
+- Con banners, la primera foto es la imagen principal del hero y puede afectar el LCP en móvil (no medido todavía).
 - Sin resolver todavía: `siteUrl`, canonical, `og:*`, sitemap y JSON-LD.
