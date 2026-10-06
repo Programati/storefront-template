@@ -44,6 +44,9 @@ export function BannerCarousel({
 }: BannerCarouselProps) {
   const count = images.length
   const [index, setIndex] = useState(0)
+  // La primera foto aparece sin fundido (cuenta para el LCP); el fundido
+  // empieza recién cuando la foto cambia por primera vez.
+  const [hasChanged, setHasChanged] = useState(false)
   // Con "reducir movimiento" en el sistema no hay rotación automática:
   // se navega solo con las flechas y los puntos. Se lee una vez al montar.
   const [autoplay] = useState(() => !prefersReducedMotion())
@@ -52,10 +55,10 @@ export function BannerCarousel({
   // el usuario cambia de foto a mano (flechas o puntos).
   useEffect(() => {
     if (!autoplay || count < 2) return undefined
-    const id = window.setTimeout(
-      () => setIndex((i) => (i + 1) % count),
-      intervalMs,
-    )
+    const id = window.setTimeout(() => {
+      setHasChanged(true)
+      setIndex((i) => (i + 1) % count)
+    }, intervalMs)
     return () => window.clearTimeout(id)
   }, [index, autoplay, count, intervalMs])
 
@@ -63,8 +66,12 @@ export function BannerCarousel({
   const current = images[active]
   if (!current) return null
 
-  const goNext = () => setIndex((i) => (i + 1) % count)
-  const goPrev = () => setIndex((i) => (i - 1 + count) % count)
+  const go = (next: (i: number) => number) => {
+    setHasChanged(true)
+    setIndex(next)
+  }
+  const goNext = () => go((i) => (i + 1) % count)
+  const goPrev = () => go((i) => (i - 1 + count) % count)
 
   return (
     <section
@@ -83,7 +90,11 @@ export function BannerCarousel({
           width={1600}
           height={900}
           priority={active === 0}
-          className="absolute inset-0 size-full animate-in object-cover duration-700 fade-in motion-reduce:animate-none"
+          className={cn(
+            'absolute inset-0 size-full object-cover',
+            hasChanged &&
+              'animate-in duration-700 fade-in motion-reduce:animate-none',
+          )}
         />
       </div>
       <div className="absolute inset-0 bg-black/60" aria-hidden="true" />
@@ -112,7 +123,7 @@ export function BannerCarousel({
               <button
                 key={image.path}
                 type="button"
-                onClick={() => setIndex(i)}
+                onClick={() => go(() => i)}
                 aria-label={`Ver imagen ${i + 1} de ${count}`}
                 aria-current={i === active ? 'true' : undefined}
                 className="grid size-6 place-items-center rounded-full focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none"

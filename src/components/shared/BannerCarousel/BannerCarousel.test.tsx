@@ -77,6 +77,15 @@ describe('BannerCarousel', () => {
     ).toBeTruthy()
   })
 
+  it('la primera foto no hace fundido; las siguientes sí', () => {
+    renderCarousel()
+    const first = screen.getByRole('img', { name: 'Mesa de dulces' })
+    expect(first.className.includes('animate-in')).toBe(false)
+    fireEvent.click(screen.getByRole('button', { name: 'Foto siguiente' }))
+    const second = screen.getByRole('img', { name: 'Torta recién hecha' })
+    expect(second.className.includes('animate-in')).toBe(true)
+  })
+
   it('las flechas avanzan y retroceden sin fin', () => {
     renderCarousel()
     fireEvent.click(screen.getByRole('button', { name: 'Foto siguiente' }))
