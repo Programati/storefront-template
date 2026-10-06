@@ -191,4 +191,3 @@ MIT. Ver [LICENSE](LICENSE).
 
 - Es una SPA pura: Lighthouse marca "LCP request discovery" en rojo.
 - Sin resolver todavía: `siteUrl`, canonical, `og:*`, sitemap y JSON-LD.
-- `gallery` existe en el modelo de producto y en el script de imágenes, pero la interfaz todavía no la muestra: solo se ve `image`.
