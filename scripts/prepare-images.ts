@@ -73,10 +73,10 @@ async function main() {
     try {
       const result = await processImage(join(inputDir, input), output)
       const note = result.small
-        ? `  ⚠ chica (${result.side}px): se verá borrosa`
+        ? `  ⚠ chica (${result.width}px): se verá borrosa`
         : ''
       console.log(
-        `✔ ${target.path}  ${result.side}×${result.side}  ${kb(result.bytes)}${note}`,
+        `✔ ${target.path}  ${result.width}×${result.height}  ${kb(result.bytes)}${note}`,
       )
     } catch (error) {
       console.error(
