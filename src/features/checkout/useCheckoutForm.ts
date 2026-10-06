@@ -18,6 +18,7 @@ export function useCheckoutForm() {
     name: '',
     deliveryMethodId: config.deliveryMethods[0]?.id ?? '',
     address: '',
+    locationUrl: '',
     date: '',
     time: '',
     notes: '',

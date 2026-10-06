@@ -27,6 +27,7 @@ export function buildWhatsAppMessage(
   out.push(`👤 *Cliente:* ${customer.name}`)
   out.push(`📍 *Entrega:* ${customer.deliveryLabel}`)
   if (customer.address) out.push(`🏠 *Dirección:* ${customer.address}`)
+  if (customer.locationUrl) out.push(`🗺️ *Ubicación:* ${customer.locationUrl}`)
   if (schedule.date) {
     out.push(
       `📅 *Para:* ${formatDate(schedule.date)}${schedule.time ? ` · ${schedule.time}` : ''}`,

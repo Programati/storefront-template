@@ -66,6 +66,7 @@ function CheckoutContent() {
           errors={checkout.errors}
           deliveryMethods={config.deliveryMethods}
           scheduling={config.scheduling ?? 'date'}
+          locationLink={config.locationLink ?? false}
           minDate={checkout.today}
           onChange={checkout.setField}
           onSubmit={checkout.submit}
