@@ -87,16 +87,6 @@ export const catalog: Catalog = {
         path: 'products/torta-de-cumple.webp',
         alt: 'Torta decorada lista para un festejo',
       },
-      gallery: [
-        {
-          path: 'products/torta-de-cumple-2.webp',
-          alt: 'Torta decorada vista de costado',
-        },
-        {
-          path: 'products/torta-de-cumple-3.webp',
-          alt: 'Detalle de la decoración de la torta',
-        },
-      ],
       variantLabel: 'Tamaño',
       variants: [
         { id: 'torta-8', label: '8 porciones', price: 18000 },
