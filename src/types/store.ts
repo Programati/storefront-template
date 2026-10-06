@@ -80,6 +80,17 @@ export interface ImageConfig {
 export type CardLook = 'cozy' | 'catalog' | 'spec'
 export type SchedulingMode = 'none' | 'date' | 'datetime'
 
+export interface LogoConfig {
+  path: string // ruta relativa, igual que las demás imágenes
+  /** Con el logo solo, nombra el link a la home: incluí el nombre de la tienda. */
+  alt: string
+  /** Dimensiones reales del archivo (las imprime `pnpm images:logo`). */
+  width: number
+  height: number
+  /** Muestra el nombre de la tienda al lado del logo. */
+  showName?: boolean
+}
+
 export interface StoreConfig {
   storeName: string
   tagline?: string
@@ -93,6 +104,8 @@ export interface StoreConfig {
   images?: ImageConfig
   /** Muestra en el pedido un campo para pegar un link de Google Maps (por defecto apagado). */
   locationLink?: boolean
+  /** Logo del header. Sin logo se muestra el nombre de la tienda. */
+  logo?: LogoConfig
 }
 
 export interface Catalog {
