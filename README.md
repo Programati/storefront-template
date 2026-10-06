@@ -15,6 +15,7 @@ Para clientes que necesitan dominio propio, backend y base de datos, eso se arma
 - Catálogo con categorías, búsqueda local, variantes, grupos de opciones y productos agotados.
 - Carrito persistido en `localStorage` (guarda solo ids y cantidades; los precios se recalculan desde el catálogo).
 - Banner rotativo opcional en el hero, con flechas y puntos (ver sección Banners).
+- Ubicación opcional por link de Google Maps en el pedido (ver sección Ubicación por link).
 - Pedido por WhatsApp como ticket con código (por ejemplo `DO-7K2F`).
 - Imágenes servidas desde ImageKit, con un provider `placeholder` para desarrollo.
 
@@ -72,13 +73,13 @@ Capas: `components/ui` ← `components/shared` ← `features/*` ← `pages`. `fe
 
 ### `src/store-pack/`
 
-| Archivo      | Qué define                                                                     |
-| ------------ | ------------------------------------------------------------------------------ |
-| `config.ts`  | Nombre, WhatsApp, moneda, entregas, estilo del mensaje, imágenes               |
-| `catalog.ts` | Categorías, productos, variantes, opciones y promos                            |
-| `content.ts` | Secciones de la home, en orden (hero, categorías, destacados, cómo pedir, FAQ) |
-| `theme.css`  | Paleta y fuente (solo valores, claro y oscuro)                                 |
-| `fonts.ts`   | Imports de `@fontsource`                                                       |
+| Archivo      | Qué define                                                                           |
+| ------------ | ------------------------------------------------------------------------------------ |
+| `config.ts`  | Nombre, WhatsApp, moneda, entregas, estilo del mensaje, imágenes, ubicación por link |
+| `catalog.ts` | Categorías, productos, variantes, opciones y promos                                  |
+| `content.ts` | Secciones de la home, en orden (hero, categorías, destacados, cómo pedir, FAQ)       |
+| `theme.css`  | Paleta y fuente (solo valores, claro y oscuro)                                       |
+| `fonts.ts`   | Imports de `@fontsource`                                                             |
 
 Nadie importa `store-pack` directo salvo `StoreProvider` y `fonts`: el resto lee todo con `useStoreConfig()`, `useCatalog()` y `useStoreContent()`. Excepciones deliberadas (validan o procesan los datos reales): `catalogQuality.test.ts`, `scripts/prepare-images.ts`, `scripts/images/catalogPaths.test.ts`, `scripts/prepare-banners.ts` y `scripts/images/bannerPaths.test.ts`.
 
@@ -144,6 +145,18 @@ Campo **opcional** `banners` dentro del hero de `content.ts`. Sin banners, el he
 - **Recorte:** el script recorta al centro en 16:9. Una foto cuadrada pierde arriba y abajo, y en celular se ve la parte central: componé la foto con lo importante en el medio.
 - `images:banners:check` no corre en CI. En CI corre `scripts/images/bannerPaths.test.ts`, que valida rutas, `alt` y nombres repetidos.
 
+## Ubicación por link de Google Maps
+
+Interruptor **opcional** `locationLink` en `config.ts` (apagado por defecto). Si está en `true` y el método de entrega requiere dirección, el formulario muestra un campo para pegar un link de Google Maps. Si el link es válido, aparece una tarjeta con el botón "Abrir en Google Maps" (pestaña nueva) y la línea `🗺️ Ubicación:` va en el mensaje de WhatsApp, debajo de la dirección.
+
+- Se validan solo links `https` de `maps.app.goo.gl`, `maps.google.com`, y `google.com`, `www.google.com` y `goo.gl` bajo `/maps`. Sin usuario, contraseña ni puerto, y con el host exacto (no "contiene").
+- El link se valida en tres lugares: el formulario, `buildOrder` y `isOrder` (el pedido llega por el estado del historial a `/gracias`, donde se renderiza como enlace).
+- Si el cliente cambia a un método sin dirección, el link no viaja en el pedido.
+- No se persiste en `localStorage`: vive solo en el estado de navegación hacia `/gracias`.
+- **Sin mapa embebido:** no hay iframe, así que la CSP no cambia. Los links cortos (`maps.app.goo.gl`) no se pueden resolver a coordenadas sin backend (no verificado).
+- **Limitación:** los dominios regionales de Google (por ejemplo `google.com.ar`) no están aceptados. No verifiqué cuáles genera "Compartir" en cada país.
+- Con el link de Maps, el mensaje es más largo: si supera el tope, aplica el plan B de siempre (chat sin texto y mensaje copiado).
+
 ## Calidad
 
 - **Tests:** `*.test.ts(x)` junto al código. Los que leen archivos con Node van como `*.node.test.ts` (dentro de `scripts/` no hace falta). Los de componentes llevan `// @vitest-environment jsdom` como **primera línea**.
@@ -182,7 +195,7 @@ Rama `tipo/descripcion` → push → PR → CI verde → merge en GitHub con **M
 
 **Marca y contenido**
 
-- [ ] `config.ts`: nombre, tagline, moneda, entregas, estilo del mensaje, `scheduling`.
+- [ ] `config.ts`: nombre, tagline, moneda, entregas, estilo del mensaje, `scheduling`, `locationLink`.
 - [ ] `content.ts`: hero, "cómo pedir" y FAQ propios.
 - [ ] `theme.css`: paleta; correr `pnpm test` para ver el contraste.
 - [ ] Fuente: instalar, importar solo los pesos usados y actualizar `--font-sans`.
