@@ -1,3 +1,4 @@
+import { parseMapsLink } from './mapsLink'
 import type { Order } from './types'
 
 const isRecord = (v: unknown): v is Record<string, unknown> =>
@@ -16,6 +17,10 @@ export function isOrder(value: unknown): value is Order {
     typeof customer.name === 'string' &&
     typeof customer.deliveryLabel === 'string' &&
     Array.isArray(customer.notes) &&
+    // Opcional, pero si viene tiene que ser un link de Maps válido (se muestra como enlace).
+    (customer.locationUrl === undefined ||
+      (typeof customer.locationUrl === 'string' &&
+        parseMapsLink(customer.locationUrl) !== null)) &&
     isNum(totals.subtotal) &&
     isNum(totals.discount) &&
     isNum(totals.total) &&
