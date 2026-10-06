@@ -13,6 +13,8 @@
     "test:watch": "vitest",
     "images:check": "tsx scripts/prepare-images.ts --check",
     "images:prepare": "tsx scripts/prepare-images.ts",
+    "images:banners": "tsx scripts/prepare-banners.ts",
+    "images:banners:check": "tsx scripts/prepare-banners.ts --check",
     "build:analyze": "ANALYZE=1 vite build",
     "bundle:check": "tsx scripts/check-bundle-size.ts",
     "preset:use": "tsx scripts/use-preset.ts"
