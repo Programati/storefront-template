@@ -1,3 +1,8 @@
+import type { ProductImage } from './store'
+
+/** Foto de banner: misma forma que una foto de producto (ruta relativa + alt). */
+export type BannerImage = ProductImage
+
 export interface HowToOrderStep {
   title: string
   description: string
@@ -10,7 +15,7 @@ export interface FaqItem {
 
 // Unión discriminada por `type`: cada sección declara solo los campos que usa.
 export type HomeSection =
-  | { type: 'hero'; ctaLabel: string }
+  | { type: 'hero'; ctaLabel: string; banners?: BannerImage[] }
   | { type: 'categories'; title: string }
   | { type: 'featured'; title: string }
   | { type: 'howToOrder'; title: string; steps: HowToOrderStep[] }

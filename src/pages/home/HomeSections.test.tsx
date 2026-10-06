@@ -43,6 +43,12 @@ const faq: HomeSection = {
   items: [{ question: '¿Cómo pago?', answer: 'Por WhatsApp.' }],
 }
 
+const heroWithBanners: HomeSection = {
+  type: 'hero',
+  ctaLabel: 'Mirá todo',
+  banners: [{ path: 'banners/mesa.webp', alt: 'Mesa de dulces' }],
+}
+
 describe('HomeSections', () => {
   afterEach(cleanup)
 
@@ -78,5 +84,15 @@ describe('HomeSections', () => {
 
     expect(screen.getByText('¿Cómo pago?')).toBeTruthy()
     expect(screen.getByText('Por WhatsApp.')).toBeTruthy()
+  })
+
+  it('el hero con banners muestra la foto y conserva título y CTA', () => {
+    renderSections([heroWithBanners])
+
+    expect(screen.getByRole('img', { name: 'Mesa de dulces' })).toBeTruthy()
+    expect(
+      screen.getByRole('heading', { level: 1, name: 'Tienda Test' }),
+    ).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Mirá todo' })).toBeTruthy()
   })
 })

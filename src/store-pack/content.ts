@@ -5,7 +5,24 @@ export const storeContent: StoreContent = {
     'Vista de demostración: los pedidos de este sitio no llegan a ningún comercio.',
   home: {
     sections: [
-      { type: 'hero', ctaLabel: 'Ver las delicias' },
+      {
+        type: 'hero',
+        ctaLabel: 'Ver las delicias',
+        banners: [
+          {
+            path: 'banners/banner-1.webp',
+            alt: 'Collage de diez postres, cada uno en su recuadro',
+          },
+          {
+            path: 'banners/banner-2.webp',
+            alt: 'Postre individual con una frutilla bañada en chocolate encima',
+          },
+          {
+            path: 'banners/banner-3.webp',
+            alt: 'Tres postres servidos en vasitos',
+          },
+        ],
+      },
       { type: 'categories', title: 'Elegí tu antojo' },
       { type: 'featured', title: 'Los favoritos de la casa' },
       {

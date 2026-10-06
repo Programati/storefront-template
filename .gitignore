@@ -1,6 +1,7 @@
 node_modules
 dist
 images-raw/
+banners-raw/
 images-ready/
 
 # Entorno y secretos

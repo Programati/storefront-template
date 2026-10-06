@@ -8,7 +8,9 @@ import { HowToOrderSection } from './HowToOrderSection'
 function renderSection(section: HomeSection) {
   switch (section.type) {
     case 'hero':
-      return <HeroSection ctaLabel={section.ctaLabel} />
+      return (
+        <HeroSection ctaLabel={section.ctaLabel} banners={section.banners} />
+      )
     case 'categories':
       return <CategoriesSection title={section.title} />
     case 'featured':
