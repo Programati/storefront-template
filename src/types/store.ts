@@ -91,6 +91,8 @@ export interface StoreConfig {
   cardLook?: CardLook
   scheduling?: SchedulingMode // qué pide el checkout: nada, fecha, o fecha + horario (por defecto 'date')
   images?: ImageConfig
+  /** Muestra en el pedido un campo para pegar un link de Google Maps (por defecto apagado). */
+  locationLink?: boolean
 }
 
 export interface Catalog {

@@ -18,6 +18,7 @@ export interface OrderCustomer {
   name: string
   deliveryLabel: string // el texto del método, ya resuelto: el pedido no depende de la config
   address?: string
+  locationUrl?: string // link de Google Maps ya validado
   notes: string[] // una entrada por línea, ya saneadas
 }
 
@@ -39,6 +40,7 @@ export interface CheckoutFormValues {
   name: string
   deliveryMethodId: string
   address: string
+  locationUrl?: string
   date: string
   time: string
   notes: string
