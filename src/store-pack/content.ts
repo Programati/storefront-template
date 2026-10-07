@@ -3,6 +3,17 @@ import type { StoreContent } from '@/types'
 export const storeContent: StoreContent = {
   demoNotice:
     'Vista de demostración: los pedidos de este sitio no llegan a ningún comercio.',
+  footer: {
+    columns: [
+      {
+        title: 'Retiro',
+        lines: [
+          'Retiro en el local, a coordinar por WhatsApp',
+          'Envío a domicilio',
+        ],
+      },
+    ],
+  },
   home: {
     sections: [
       {
