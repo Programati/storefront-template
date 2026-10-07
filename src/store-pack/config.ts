@@ -17,6 +17,10 @@ export const storeConfig: StoreConfig = {
   cardLook: 'cozy',
   scheduling: 'datetime',
   locationLink: true,
+  social: {
+    instagram: 'https://www.instagram.com/REEMPLAZAR/',
+    facebook: 'https://www.facebook.com/REEMPLAZAR',
+  },
   images: {
     provider: 'imagekit',
     baseUrl: 'https://ik.imagekit.io/f9mtj7lc7',
