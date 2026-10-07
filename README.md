@@ -16,6 +16,7 @@ Para clientes que necesitan dominio propio, backend y base de datos, eso se arma
 - Carrito persistido en `localStorage` (guarda solo ids y cantidades; los precios se recalculan desde el catálogo).
 - Banner rotativo opcional en el hero, con flechas y puntos (ver sección Banners).
 - Ubicación opcional por link de Google Maps en el pedido (ver sección Ubicación por link).
+- Header con logo, nombre o ambos, y footer con WhatsApp, redes y columnas informativas (ver sección Header, logo y footer).
 - Pedido por WhatsApp como ticket con código (por ejemplo `DO-7K2F`).
 - Imágenes servidas desde ImageKit, con un provider `placeholder` para desarrollo.
 
@@ -37,21 +38,23 @@ pnpm dev
 
 ## Scripts
 
-| Script                      | Qué hace                                                             |
-| --------------------------- | -------------------------------------------------------------------- |
-| `pnpm dev`                  | Servidor de desarrollo                                               |
-| `pnpm build`                | `tsc -b` (tipa `src/` y `scripts/`) y build de Vite                  |
-| `pnpm lint`                 | ESLint                                                               |
-| `pnpm test`                 | Vitest (una pasada)                                                  |
-| `pnpm test:watch`           | Vitest en modo watch                                                 |
-| `pnpm preview`              | Sirve el build local                                                 |
-| `pnpm images:check`         | Chequeo **local** de fotos faltantes, huérfanas o en conflicto       |
-| `pnpm images:prepare`       | Convierte las fotos de `images-raw/` a WebP en `images-ready/`       |
-| `pnpm images:banners:check` | Chequeo **local** de los banners del hero contra `banners-raw/`      |
-| `pnpm images:banners`       | Convierte las fotos de `banners-raw/` a WebP 16:9 en `images-ready/` |
-| `pnpm build:analyze`        | Build con informe de bundle en `dist/analyze-data.md` (experimental) |
-| `pnpm bundle:check`         | Falla si el JS gzip supera el tope de `bundle-budget.json`           |
-| `pnpm preset:use <id>`      | Aplica un preset sobre `src/store-pack/`                             |
+| Script                      | Qué hace                                                                  |
+| --------------------------- | ------------------------------------------------------------------------- |
+| `pnpm dev`                  | Servidor de desarrollo                                                    |
+| `pnpm build`                | `tsc -b` (tipa `src/` y `scripts/`) y build de Vite                       |
+| `pnpm lint`                 | ESLint                                                                    |
+| `pnpm test`                 | Vitest (una pasada)                                                       |
+| `pnpm test:watch`           | Vitest en modo watch                                                      |
+| `pnpm preview`              | Sirve el build local                                                      |
+| `pnpm images:check`         | Chequeo **local** de fotos faltantes, huérfanas o en conflicto            |
+| `pnpm images:prepare`       | Convierte las fotos de `images-raw/` a WebP en `images-ready/`            |
+| `pnpm images:banners:check` | Chequeo **local** de los banners del hero contra `banners-raw/`           |
+| `pnpm images:banners`       | Convierte las fotos de `banners-raw/` a WebP 16:9 en `images-ready/`      |
+| `pnpm images:logo:check`    | Chequeo **local** del logo en `logo-raw/`                                 |
+| `pnpm images:logo`          | Procesa el logo de `logo-raw/` a WebP sin recorte en `images-ready/logo/` |
+| `pnpm build:analyze`        | Build con informe de bundle en `dist/analyze-data.md` (experimental)      |
+| `pnpm bundle:check`         | Falla si el JS gzip supera el tope de `bundle-budget.json`                |
+| `pnpm preset:use <id>`      | Aplica un preset sobre `src/store-pack/`                                  |
 
 ## Arquitectura
 
@@ -73,13 +76,13 @@ Capas: `components/ui` ← `components/shared` ← `features/*` ← `pages`. `fe
 
 ### `src/store-pack/`
 
-| Archivo      | Qué define                                                                           |
-| ------------ | ------------------------------------------------------------------------------------ |
-| `config.ts`  | Nombre, WhatsApp, moneda, entregas, estilo del mensaje, imágenes, ubicación por link |
-| `catalog.ts` | Categorías, productos, variantes, opciones y promos                                  |
-| `content.ts` | Secciones de la home, en orden (hero, categorías, destacados, cómo pedir, FAQ)       |
-| `theme.css`  | Paleta y fuente (solo valores, claro y oscuro)                                       |
-| `fonts.ts`   | Imports de `@fontsource`                                                             |
+| Archivo      | Qué define                                                                                           |
+| ------------ | ---------------------------------------------------------------------------------------------------- |
+| `config.ts`  | Nombre, WhatsApp, moneda, entregas, estilo del mensaje, imágenes, ubicación por link, logo, redes    |
+| `catalog.ts` | Categorías, productos, variantes, opciones y promos                                                  |
+| `content.ts` | Secciones de la home, en orden (hero, categorías, destacados, cómo pedir, FAQ) y columnas del footer |
+| `theme.css`  | Paleta y fuente (solo valores, claro y oscuro)                                                       |
+| `fonts.ts`   | Imports de `@fontsource`                                                                             |
 
 Nadie importa `store-pack` directo salvo `StoreProvider` y `fonts`: el resto lee todo con `useStoreConfig()`, `useCatalog()` y `useStoreContent()`. Excepciones deliberadas (validan o procesan los datos reales): `catalogQuality.test.ts`, `scripts/prepare-images.ts`, `scripts/images/catalogPaths.test.ts`, `scripts/prepare-banners.ts` y `scripts/images/bannerPaths.test.ts`.
 
@@ -157,6 +160,33 @@ Interruptor **opcional** `locationLink` en `config.ts` (apagado por defecto). Si
 - **Limitación:** los dominios regionales de Google (por ejemplo `google.com.ar`) no están aceptados. No verifiqué cuáles genera "Compartir" en cada país.
 - Con el link de Maps, el mensaje es más largo: si supera el tope, aplica el plan B de siempre (chat sin texto y mensaje copiado).
 
+## Header, logo y footer
+
+**Header.** Campo **opcional** `logo` en `config.ts`. Sin logo se muestra el nombre de la tienda. Con logo se muestra solo el logo, y con `showName: true` el logo y el nombre.
+
+```ts
+logo: {
+  path: 'logo/logo.webp',
+  alt: 'Nombre de la tienda', // con el logo solo, nombra el link a la home
+  width: 109,
+  height: 98,
+  showName: true, // opcional
+}
+```
+
+- `width` y `height` son las dimensiones reales del archivo: las imprime `pnpm images:logo`. El navegador las usa para reservar el espacio.
+- Con `showName: true` el logo es decorativo (`alt` vacío) para que el lector de pantalla no lea el nombre dos veces.
+- Flujo: logo en `logo-raw/` (un solo archivo) → `pnpm images:logo:check` → `pnpm images:logo` → subir `images-ready/logo/logo.webp` a la carpeta `logo` de ImageKit (sin sufijo aleatorio) → copiar `width` y `height` a `config.ts`. Las imágenes no se commitean.
+- El script **no recorta ni deforma**: quita los márgenes sobrantes, reduce hasta 640×160 como máximo sin agrandar nunca, y guarda WebP **sin pérdida**. Avisa si el alto final es menor a 64 px (se verá borroso en pantallas retina) y si el original no tiene transparencia (va con su fondo propio).
+- El header mide 56 px de alto y el logo se muestra a 32 px: un logo con mucho detalle se lee mal. Pedí al cliente una versión horizontal.
+
+**Footer.** Se muestra siempre, con la marca, la frase (`tagline`) y las secciones que tengan datos:
+
+- **Contacto:** el WhatsApp sale de `whatsappNumber` (link a `wa.me` sin texto, más un botón **Copiar** que copia `+` y los dígitos). Un celular argentino (`549` + 10 dígitos) se muestra como `+54 9 <resto>`. Cualquier otro número, como `+` y los dígitos. No se separa el código de área porque su largo varía.
+- **Redes:** `social: { instagram, facebook }` en `config.ts`, con URLs completas. Solo se aceptan links `https` de `instagram.com` y `facebook.com` (con o sin `www`; `m.facebook.com` también), con una ruta de perfil, sin usuario, contraseña ni puerto. Un link inválido no se muestra. Los logos son de [Simple Icons](https://simpleicons.org) y son marcas de sus titulares: sirven para enlazar a cada red.
+- **Columnas informativas:** `footer: { columns: [{ title, lines }] }` en `content.ts` (retiro, horarios…). Sin el campo, no hay columnas.
+- En móvil, el footer deja espacio abajo cuando hay carrito, para que la barra flotante no lo tape.
+
 ## Calidad
 
 - **Tests:** `*.test.ts(x)` junto al código. Los que leen archivos con Node van como `*.node.test.ts` (dentro de `scripts/` no hace falta). Los de componentes llevan `// @vitest-environment jsdom` como **primera línea**.
@@ -200,6 +230,9 @@ Rama `tipo/descripcion` → push → PR → CI verde → merge en GitHub con **M
 - [ ] `theme.css`: paleta; correr `pnpm test` para ver el contraste.
 - [ ] Fuente: instalar, importar solo los pesos usados y actualizar `--font-sans`.
 - [ ] Favicon del cliente (`public/favicon.svg`).
+- [ ] Logo del cliente (si tiene): `pnpm images:logo` y copiar `width` y `height` a `config.ts`.
+- [ ] `config.ts`: reemplazar los links de `social` por los del cliente (los presets traen links de relleno).
+- [ ] `content.ts`: columnas del footer propias (retiro, horarios).
 - [ ] `content.ts`: borrar `demoNotice` si el repo es de un cliente real (el preset `pasteleria` lo trae puesto).
 
 **Catálogo e imágenes**
@@ -224,4 +257,5 @@ MIT. Ver [LICENSE](LICENSE).
 
 - Es una SPA pura: Lighthouse marca "LCP request discovery" en rojo.
 - Con banners, la primera foto es la imagen principal del hero y puede afectar el LCP en móvil (no medido todavía).
+- El footer y el logo sumaron unos 3,3 kB gzip al bundle. El tope sigue en `bundle-budget.json` con poco margen: antes de sumar funcionalidades conviene optimizar o subir el tope a conciencia.
 - Sin resolver todavía: `siteUrl`, canonical, `og:*`, sitemap y JSON-LD.
