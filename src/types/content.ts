@@ -21,9 +21,16 @@ export type HomeSection =
   | { type: 'howToOrder'; title: string; steps: HowToOrderStep[] }
   | { type: 'faq'; title: string; items: FaqItem[] }
 
+export interface FooterColumn {
+  title: string
+  lines: string[]
+}
+
 export interface StoreContent {
   // Opcional: si existe, se muestra una franja arriba de todo. Sin el campo, no se muestra nada.
   demoNotice?: string
+  // Opcional: columnas informativas del footer (retiro, horarios…). Sin el campo, no hay columnas.
+  footer?: { columns?: FooterColumn[] }
   home: {
     // El orden de la lista es el orden en pantalla. Quitar un ítem oculta la sección.
     sections: HomeSection[]

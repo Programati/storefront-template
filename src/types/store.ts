@@ -80,6 +80,22 @@ export interface ImageConfig {
 export type CardLook = 'cozy' | 'catalog' | 'spec'
 export type SchedulingMode = 'none' | 'date' | 'datetime'
 
+export interface SocialLinks {
+  instagram?: string
+  facebook?: string
+}
+
+export interface LogoConfig {
+  path: string // ruta relativa, igual que las demás imágenes
+  /** Con el logo solo, nombra el link a la home: incluí el nombre de la tienda. */
+  alt: string
+  /** Dimensiones reales del archivo (las imprime `pnpm images:logo`). */
+  width: number
+  height: number
+  /** Muestra el nombre de la tienda al lado del logo. */
+  showName?: boolean
+}
+
 export interface StoreConfig {
   storeName: string
   tagline?: string
@@ -93,6 +109,12 @@ export interface StoreConfig {
   images?: ImageConfig
   /** Muestra en el pedido un campo para pegar un link de Google Maps (por defecto apagado). */
   locationLink?: boolean
+  /** Logo del header. Sin logo se muestra el nombre de la tienda. */
+  logo?: LogoConfig
+  /** Cómo se muestra el WhatsApp en el footer (ej: '+54 9 3794 57-2993'). Sin esto, '+' y los dígitos. */
+  whatsappDisplay?: string
+  /** Redes del footer: URLs completas. Una URL inválida no se muestra. */
+  social?: SocialLinks
 }
 
 export interface Catalog {
