@@ -15,6 +15,8 @@
     "images:prepare": "tsx scripts/prepare-images.ts",
     "images:banners": "tsx scripts/prepare-banners.ts",
     "images:banners:check": "tsx scripts/prepare-banners.ts --check",
+    "images:logo": "tsx scripts/prepare-logo.ts",
+    "images:logo:check": "tsx scripts/prepare-logo.ts --check",
     "build:analyze": "ANALYZE=1 vite build",
     "bundle:check": "tsx scripts/check-bundle-size.ts",
     "preset:use": "tsx scripts/use-preset.ts"
