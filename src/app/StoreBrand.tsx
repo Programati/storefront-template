@@ -6,7 +6,12 @@ import { useImageResolver } from './useImageResolver'
 // Alto del logo en pantalla: h-8 = 2 rem = 32 px.
 const LOGO_DISPLAY_HEIGHT = 32
 
-export function StoreBrand() {
+interface StoreBrandProps {
+  /** Solo el logo del header va con prioridad (LCP); el del footer, no. */
+  priority?: boolean
+}
+
+export function StoreBrand({ priority = true }: StoreBrandProps) {
   const { storeName, logo } = useStoreConfig()
   const resolver = useImageResolver()
 
@@ -30,7 +35,7 @@ export function StoreBrand() {
           width={logo.width}
           height={logo.height}
           widths={[displayWidth * 2, logo.width]}
-          priority
+          priority={priority}
           className="h-8 w-auto"
         />
       }
