@@ -80,6 +80,11 @@ export interface ImageConfig {
 export type CardLook = 'cozy' | 'catalog' | 'spec'
 export type SchedulingMode = 'none' | 'date' | 'datetime'
 
+export interface SocialLinks {
+  instagram?: string
+  facebook?: string
+}
+
 export interface LogoConfig {
   path: string // ruta relativa, igual que las demás imágenes
   /** Con el logo solo, nombra el link a la home: incluí el nombre de la tienda. */
@@ -106,6 +111,10 @@ export interface StoreConfig {
   locationLink?: boolean
   /** Logo del header. Sin logo se muestra el nombre de la tienda. */
   logo?: LogoConfig
+  /** Cómo se muestra el WhatsApp en el footer (ej: '+54 9 3794 57-2993'). Sin esto, '+' y los dígitos. */
+  whatsappDisplay?: string
+  /** Redes del footer: URLs completas. Una URL inválida no se muestra. */
+  social?: SocialLinks
 }
 
 export interface Catalog {
